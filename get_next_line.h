@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:40:29 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 09:46:40 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:28:43 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@
 
 
 char	*get_next_line(int fd);
-char	*ft_strdup(const char *s1);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dest, char *src, size_t dstsize);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strchr(const char *s, int c);
+
+
 
 #endif
