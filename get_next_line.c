@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/18 10:39:48 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:52:52 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
-#define BUFFER_SIZE 1024
 
 char	*ft_free(char *buff)
 {
@@ -27,7 +26,7 @@ char	*ft_str_build(int fd, char *buff)
 {
 	int		i;
 	char	*str;
-	size_t	bytes_read;
+	int		bytes_read;
 
 	i = 1;
 	if (!buff)
@@ -65,7 +64,7 @@ char	*get_next_line(int fd)
 {
 	char	*buff;
 
-	if (!fd || fd <= 0)
+	if (!fd || fd <= 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = ft_read_fd(fd);
 	if (!buff)
@@ -73,7 +72,7 @@ char	*get_next_line(int fd)
 	return (buff);
 }
 
-/* int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	int		fd;
 	char	*str;
@@ -85,10 +84,11 @@ char	*get_next_line(int fd)
 	while (i < 1)
 	{
 		str = get_next_line(fd);
+		if (!str)
+			return (1);
 		printf("%s\n", str);
 		free(str);
 		// printf("%s\n", get_next_line(fd2));
 		i++;
-	} */
-	
+	}
 }
