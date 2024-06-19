@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:40:29 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 11:28:43 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:41:25 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strchr(const char *s, int c);
-
-
+size_t	ft_strlcpy(char *dest, char *src, size_t dstsize);
 
 #endif

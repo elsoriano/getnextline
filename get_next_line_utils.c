@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:40:08 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 11:03:12 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:09:55 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	size_t	i;
 	char	*buff;
 
-	if (!s1 && !s2)
-		return (NULL);
 	j = 0;
 	buff = (char *) malloc((ft_strlen(s2) + ft_strlen(s1) + 1) * sizeof(char));
 	if (!buff)
@@ -36,29 +34,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (buff);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		*((char *)(s + i)) = '\0';
-		i++;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*buff;
-
-	buff = malloc(count * size);
-	if (buff == NULL)
-		return (NULL);
-	ft_bzero(buff, count * size);
-	return (buff);
-}
-
 size_t	ft_strlen(const char *s)
 {
 	size_t	j;
@@ -71,7 +46,7 @@ size_t	ft_strlen(const char *s)
 	return (j);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
@@ -83,6 +58,23 @@ char	*ft_strchr(const char *s, int c)
 		i++;
 	}
 	if (s[i] == c % 256)
-		return ((char *) &s[i]);
-	return (NULL);
+		return (i);
+	return (0);
+}
+
+size_t	ft_strlcpy(char *dest, char *src, size_t dstsize)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (dstsize != 0 && i < dstsize - 1 && src[i])
+	{
+		dest[i] = src[i];
+		++i;
+	}
+	if (i < dstsize)
+		dest[i] = '\0';
+	while (src[i])
+		++i;
+	return (i);
 }

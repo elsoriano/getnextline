@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 11:25:22 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:39:52 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,51 +22,70 @@ char	*ft_free(char *buff)
 	return (NULL);
 }
 
-char	*ft_str_build(int fd, char *buff)
+char *ft_str_update(str)
 {
-	int		i;
-	char	*str;
-	int		bytes_read;
-
-	i = 1;
-	if (!buff)
-		return (NULL);
-	while (buff[i - 1] != '\n')
-	{
-		bytes_read = read(fd, &buff[i++], 1);
-		if (bytes_read == -1)
-			return (ft_free(buff));
-	}
-	buff[i - 1] = 'n';
-	buff[i] = '\0';
-	str = ft_strdup((const char *)buff);
+	char	*updstr;
+	size_t	offset;
+	size_t	i;
+	
 	if (!str)
-		return (ft_free(buff));
-	free(buff);
-	return (str);
+		return (ft_free(str));
+	offset = ft_strchr(str, '\n') + 1;
+	if (!offset)
+		return (str);
+	updstr = malloc((ft_strlen(str) - offset) * sizeof(char) + 1);
+	if (!updstr)
+		ft_free(str);
+	while (str)
+	{
+		updstr[i] = str[offset + i];
+		i++;
+	}
+	updstr[i] = '\0';
+	free(str);
+	return (updstr);
+}
+
+char	*ft_line_build(char *str)
+{
+	size_t	len;
+	char	*line;
+
+	len = ft_strchr(str, '\n');
+	if (len == 0)
+		len = ft_strlen(str);
+	line = malloc(len * sizeof(char) + 1);
+	if (!line)
+		return (NULL);
+	if (!ft_strlcpy(line, str, len - 1))
+		return (ft_free(line));
+	line[len - 1] = 'n';
+	line[len] = '\0';
+	return (line);
 }
 
 char	*ft_read_fd(int fd)
 {
 	size_t		bytes_read;
 	char		buff[BUFFER_SIZE + 1];
-	static char	*line;
+	static char	*str;
+	char		*line;
 
-	buff = NULL;
+	str = NULL;
 	bytes_read = BUFFER_SIZE;
-	line = malloc(BUFFER_SIZE * sizeof(char) + 1);
-	if (!line)
-		return (NULL);
-	while (ft_strchr(buff, '\n' || bytes_read < BUFFER_SIZE)
+	while (!ft_strchr(buff, '\n') || bytes_read < BUFFER_SIZE)
 	{
 		bytes_read = read(fd, buff, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (ft_free(line));
+			return (ft_free(str));
+		buff[bytes_read] = '\0';
+		str = ft_strjoin(str, buff);
+		if (!str)
+			return (ft_free(str));
 	}
-	
-	if (bytes_read <= 0)
-		return (ft_free(buff));
-	return (ft_str_build(fd, buff));
+	line = ft_line_build(str);
+	str = ft_str_update(str);
+	return (line);
 }
 
 char	*get_next_line(int fd)
