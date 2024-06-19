@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 12:39:52 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:03:10 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_free(char *buff)
 	return (NULL);
 }
 
-char *ft_str_update(str)
+char *ft_str_update(char *str)
 {
 	char	*updstr;
 	size_t	offset;
@@ -36,7 +36,7 @@ char *ft_str_update(str)
 	updstr = malloc((ft_strlen(str) - offset) * sizeof(char) + 1);
 	if (!updstr)
 		ft_free(str);
-	while (str)
+	while (str[i])
 	{
 		updstr[i] = str[offset + i];
 		i++;
@@ -73,6 +73,7 @@ char	*ft_read_fd(int fd)
 
 	str = NULL;
 	bytes_read = BUFFER_SIZE;
+	printf("%ld", bytes_read);
 	while (!ft_strchr(buff, '\n') || bytes_read < BUFFER_SIZE)
 	{
 		bytes_read = read(fd, buff, BUFFER_SIZE);
@@ -83,6 +84,7 @@ char	*ft_read_fd(int fd)
 		if (!str)
 			return (ft_free(str));
 	}
+	printf("%s", str);
 	line = ft_line_build(str);
 	str = ft_str_update(str);
 	return (line);
@@ -108,6 +110,7 @@ int main(int argc, char **argv)
 	
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
+	printf("hola\n");
 	// fd2 = open(argv[2], O_RDONLY);
 	while (i < 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:40:08 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 12:09:55 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:48:46 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ size_t	ft_strlen(const char *s)
 	return (j);
 }
 
-int	*ft_strchr(const char *s, int c)
+size_t	ft_strchr(const char *s, int c)
 {
 	int	i;
 
@@ -54,7 +54,7 @@ int	*ft_strchr(const char *s, int c)
 	while (s[i])
 	{
 		if (s[i] == c % 256)
-			return ((char *) &s[i]);
+			return (i);
 		i++;
 	}
 	if (s[i] == c % 256)
