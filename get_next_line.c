@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 09:52:52 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:25:22 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,22 @@ char	*ft_str_build(int fd, char *buff)
 
 char	*ft_read_fd(int fd)
 {
-	size_t	bytes_read;
-	char	*buff;
+	size_t		bytes_read;
+	char		buff[BUFFER_SIZE + 1];
+	static char	*line;
 
-	buff = ft_calloc(BUFFER_SIZE, sizeof(char));
-	if (!buff)
+	buff = NULL;
+	bytes_read = BUFFER_SIZE;
+	line = malloc(BUFFER_SIZE * sizeof(char) + 1);
+	if (!line)
 		return (NULL);
-	bytes_read = read(fd, &buff[0], 1);
+	while (ft_strchr(buff, '\n' || bytes_read < BUFFER_SIZE)
+	{
+		bytes_read = read(fd, buff, BUFFER_SIZE);
+		if (bytes_read < 0)
+			return (ft_free(line));
+	}
+	
 	if (bytes_read <= 0)
 		return (ft_free(buff));
 	return (ft_str_build(fd, buff));
