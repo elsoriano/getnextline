@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:40:08 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 12:48:46 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:02:30 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,26 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	char	*buff;
 
 	j = 0;
-	buff = (char *) malloc((ft_strlen(s2) + ft_strlen(s1) + 1) * sizeof(char));
+	printf("s2 = %s\n", s2);
+	if (!s1)
+		buff = malloc(ft_strlen(s2) * sizeof(char) + 1);
+	else
+		buff = (char *) malloc((ft_strlen(s2) + ft_strlen(s1) + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	if (s1)
 	{
-		buff[i] = s1[i];
-		i++;
+		while (s1[i])
+		{
+			buff[i] = s1[i];
+			i++;
+		}
 	}
 	while (s2[j])
 		buff[i++] = s2[j++];
 	buff[i] = '\0';
+	printf("buff = %s\n", buff);
 	return (buff);
 }
 
@@ -46,7 +54,7 @@ size_t	ft_strlen(const char *s)
 	return (j);
 }
 
-size_t	ft_strchr(const char *s, int c)
+int	ft_strchr(const char *s, int c)
 {
 	int	i;
 

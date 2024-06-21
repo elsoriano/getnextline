@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/19 13:03:10 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:09:15 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,19 @@ char	*ft_read_fd(int fd)
 	char		*line;
 
 	str = NULL;
-	bytes_read = BUFFER_SIZE;
-	printf("%ld", bytes_read);
-	while (!ft_strchr(buff, '\n') || bytes_read < BUFFER_SIZE)
+	bytes_read = 1;
+	printf("%li\n", bytes_read);
+	while (!ft_strchr(buff, '\n') || bytes_read == 0)
 	{
+		printf("find %i\n", ft_strchr(buff, '\n'));
+		printf("bytes read = %li\n", bytes_read);
 		bytes_read = read(fd, buff, BUFFER_SIZE);
+		printf("buff = %s\n", buff);
 		if (bytes_read < 0)
 			return (ft_free(str));
 		buff[bytes_read] = '\0';
 		str = ft_strjoin(str, buff);
+		printf("str = %s\n", str);
 		if (!str)
 			return (ft_free(str));
 	}
@@ -94,9 +98,11 @@ char	*get_next_line(int fd)
 {
 	char	*buff;
 
-	if (!fd || fd <= 0 || BUFFER_SIZE <= 0)
+	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
+	if (fd <= 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = ft_read_fd(fd);
+	printf("BUFF = %s\n", buff);
 	if (!buff)
 		return (ft_free(buff));
 	return (buff);
@@ -110,7 +116,8 @@ int main(int argc, char **argv)
 	
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
-	printf("hola\n");
+	printf("fd gen = %i\n", fd);
+	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
 	// fd2 = open(argv[2], O_RDONLY);
 	while (i < 1)
 	{
