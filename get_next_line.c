@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/21 13:09:15 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:31:51 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ char	*ft_line_build(char *str)
 	char	*line;
 
 	len = ft_strchr(str, '\n');
+	printf("len = %li\n", len);
 	if (len == 0)
 		len = ft_strlen(str);
-	line = malloc(len * sizeof(char) + 1);
+	line = malloc(len * sizeof(char) + 3);
 	if (!line)
 		return (NULL);
-	if (!ft_strlcpy(line, str, len - 1))
+	if (!ft_strlcpy(line, str, len + 1))
 		return (ft_free(line));
-	line[len - 1] = 'n';
-	line[len] = '\0';
+	line[len + 1] = 'n';
+	line[len + 2] = '\0';
 	return (line);
 }
 
@@ -74,9 +75,9 @@ char	*ft_read_fd(int fd)
 	str = NULL;
 	bytes_read = 1;
 	printf("%li\n", bytes_read);
-	while (!ft_strchr(buff, '\n') || bytes_read == 0)
+	while (!ft_strchr(buff, '\n') && bytes_read != 0)
 	{
-		printf("find %i\n", ft_strchr(buff, '\n'));
+		printf("find %li\n", ft_strchr(buff, '\n'));
 		printf("bytes read = %li\n", bytes_read);
 		bytes_read = read(fd, buff, BUFFER_SIZE);
 		printf("buff = %s\n", buff);
@@ -88,8 +89,9 @@ char	*ft_read_fd(int fd)
 		if (!str)
 			return (ft_free(str));
 	}
-	printf("%s", str);
+	printf("str after join = %s\n", str);
 	line = ft_line_build(str);
+	printf("line = %s\n", line);
 	str = ft_str_update(str);
 	return (line);
 }
