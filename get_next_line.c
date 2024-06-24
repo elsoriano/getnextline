@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/24 11:38:06 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:18:43 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char *ft_str_update(char *str)
 	if (!str)
 		return (ft_free(str));
 	offset = ft_strchr(str, '\n');
+	if (str[offset] == '\n')
+		offset++;
 	// printf("str = %s\n", str);
 	// printf("offset %li\n", offset);
 	if (!offset)
@@ -56,15 +58,16 @@ char	*ft_line_build(char *str)
 	char	*line;
 
 	len = ft_strchr(str, '\n');
+	if (str[len] == '\n')
+		len ++;
 	// printf("len = %li\n", len);
 	if (len == 0)
 		len = ft_strlen(str);
-	line = malloc(len * sizeof(char) + 2);
+	line = malloc(len * sizeof(char) + 1);
 	if (!line)
 		return (NULL);
 	if (!ft_strlcpy(line, str, len))
 		return (ft_free(line));
-	line[len - 1] = 'n';
 	line[len] = '\0';
 	return (line);
 }
@@ -73,11 +76,11 @@ char	*ft_read_fd(int fd)
 {
 	int			bytes_read;
 	char		buff[BUFFER_SIZE + 1];
-	static char	*str;
+	static char	*str = NULL;
 	char		*line;
 
 	bytes_read = 1;
-	while (!ft_strchr(buff, '\n') && bytes_read != 0)
+	while (!ft_strchr(str, '\n') && bytes_read != 0)
 	{
 		// printf("find break = %li\n", ft_strchr(buff, '\n'));
 		// printf("bytes read = %i\n", bytes_read);
@@ -124,7 +127,7 @@ int main(int argc, char **argv)
 	printf("fd gen = %i\n", fd);
 	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
 	// fd2 = open(argv[2], O_RDONLY);
-	while (i < 10)
+	while (i < 20)
 	{
 		str = get_next_line(fd);
 		if (!str)
