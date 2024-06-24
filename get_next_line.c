@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/21 18:31:51 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/24 11:38:06 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,25 @@ char *ft_str_update(char *str)
 	size_t	offset;
 	size_t	i;
 	
+	i = 0;
 	if (!str)
 		return (ft_free(str));
-	offset = ft_strchr(str, '\n') + 1;
+	offset = ft_strchr(str, '\n');
+	// printf("str = %s\n", str);
+	// printf("offset %li\n", offset);
 	if (!offset)
 		return (str);
 	updstr = malloc((ft_strlen(str) - offset) * sizeof(char) + 1);
 	if (!updstr)
 		ft_free(str);
-	while (str[i])
+	while (str[offset + i])
 	{
 		updstr[i] = str[offset + i];
 		i++;
 	}
 	updstr[i] = '\0';
 	free(str);
+	// printf("updated str = %s\n", updstr);
 	return (updstr);
 }
 
@@ -52,47 +56,46 @@ char	*ft_line_build(char *str)
 	char	*line;
 
 	len = ft_strchr(str, '\n');
-	printf("len = %li\n", len);
+	// printf("len = %li\n", len);
 	if (len == 0)
 		len = ft_strlen(str);
-	line = malloc(len * sizeof(char) + 3);
+	line = malloc(len * sizeof(char) + 2);
 	if (!line)
 		return (NULL);
-	if (!ft_strlcpy(line, str, len + 1))
+	if (!ft_strlcpy(line, str, len))
 		return (ft_free(line));
-	line[len + 1] = 'n';
-	line[len + 2] = '\0';
+	line[len - 1] = 'n';
+	line[len] = '\0';
 	return (line);
 }
 
 char	*ft_read_fd(int fd)
 {
-	size_t		bytes_read;
+	int			bytes_read;
 	char		buff[BUFFER_SIZE + 1];
 	static char	*str;
 	char		*line;
 
-	str = NULL;
 	bytes_read = 1;
-	printf("%li\n", bytes_read);
 	while (!ft_strchr(buff, '\n') && bytes_read != 0)
 	{
-		printf("find %li\n", ft_strchr(buff, '\n'));
-		printf("bytes read = %li\n", bytes_read);
+		// printf("find break = %li\n", ft_strchr(buff, '\n'));
+		// printf("bytes read = %i\n", bytes_read);
 		bytes_read = read(fd, buff, BUFFER_SIZE);
-		printf("buff = %s\n", buff);
+		// printf("buff = %s\n", buff);
 		if (bytes_read < 0)
 			return (ft_free(str));
 		buff[bytes_read] = '\0';
 		str = ft_strjoin(str, buff);
-		printf("str = %s\n", str);
+		// printf("str after join = %s\n", str);
 		if (!str)
 			return (ft_free(str));
 	}
-	printf("str after join = %s\n", str);
+	// printf("str after all iterations = %s\n", str);
 	line = ft_line_build(str);
-	printf("line = %s\n", line);
+	// printf("line = %s\n", line);
 	str = ft_str_update(str);
+	// printf("str after update = %s\n", str);
 	return (line);
 }
 
@@ -100,11 +103,9 @@ char	*get_next_line(int fd)
 {
 	char	*buff;
 
-	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
 	if (fd <= 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = ft_read_fd(fd);
-	printf("BUFF = %s\n", buff);
 	if (!buff)
 		return (ft_free(buff));
 	return (buff);
@@ -116,19 +117,20 @@ int main(int argc, char **argv)
 	char	*str;
 	int		i;
 	
+	if (argc > 2)
+		return (0);
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	printf("fd gen = %i\n", fd);
 	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
 	// fd2 = open(argv[2], O_RDONLY);
-	while (i < 1)
+	while (i < 10)
 	{
 		str = get_next_line(fd);
 		if (!str)
 			return (1);
-		printf("%s\n", str);
+		printf("Final Result = %s\n", str);
 		free(str);
-		// printf("%s\n", get_next_line(fd2));
 		i++;
 	}
 }
