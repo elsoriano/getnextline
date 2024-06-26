@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/24 12:18:43 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:42:20 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 char	*ft_free(char *buff)
 {
 	free(buff);
+	buff = NULL;
 	return (NULL);
 }
 
@@ -114,7 +115,7 @@ char	*get_next_line(int fd)
 	return (buff);
 }
 
-int main(int argc, char **argv)
+/* int main(int argc, char **argv)
 {
 	int		fd;
 	char	*str;
@@ -136,4 +137,4 @@ int main(int argc, char **argv)
 		free(str);
 		i++;
 	}
-}
+} */

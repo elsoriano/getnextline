@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:40:08 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/24 11:58:02 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:40:04 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	char	*buff;
 
 	j = 0;
+	if (!s2)
+		return ((char *)s1);
 	// printf("string passed for join = %s\n", s2);
 	// printf("original string to join = %s\n", s1);
 	if (!s1)
