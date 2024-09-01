@@ -5,28 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 14:20:21 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/01 15:39:21 by rhernand         ###   ########.fr       */
+/*   Created: 2024/06/17 18:40:08 by rhernand          #+#    #+#             */
+/*   Updated: 2024/09/01 14:15:54 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c % 256)
-			return ((char *) &s[i]);
-		i++;
-	}
-	if (s[i] == c % 256)
-		return ((char *) &s[i]);
-	return (NULL);
-}
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {
@@ -34,17 +18,25 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	size_t	i;
 	char	*buff;
 
-	if (!s1 && !s2)
-		return (NULL);
 	j = 0;
-	buff = (char *) malloc((ft_strlen(s2) + ft_strlen(s1) + 1) * sizeof(char));
+	if (!s2)
+		return ((char *)s1);
+	// printf("string passed for join = %s\n", s2);
+	// printf("original string to join = %s\n", s1);
+	if (!s1)
+		buff = malloc(ft_strlen(s2) * sizeof(char) + 1);
+	else
+		buff = (char *) malloc((ft_strlen(s2) + ft_strlen(s1) + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	if (s1)
 	{
-		buff[i] = s1[i];
-		i++;
+		while (s1[i])
+		{
+			buff[i] = s1[i];
+			i++;
+		}
 	}
 	while (s2[j])
 		buff[i++] = s2[j++];
@@ -64,25 +56,37 @@ size_t	ft_strlen(const char *s)
 	return (j);
 }
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*buff;
-
-	buff = malloc(count * size);
-	if (buff == NULL)
-		return (NULL);
-	ft_bzero(buff, count * size);
-	return (buff);
-}
-
-void	ft_bzero(void *s, size_t n)
+size_t	ft_strchr(const char *s, int c)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
-	while (i < n)
+	while (s[i])
 	{
-		*((char *)(s + i)) = '\0';
-		i ++;
+		if (s[i] == c % 256)
+			return (i + 1);
+		i++;
 	}
+	if (s[i] == c % 256)
+		return (i + 1);
+	return (0);
+}
+
+size_t	ft_strlcpy(char *dest, char *src, size_t dstsize)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (dstsize != 0 && i < dstsize - 1 && src[i])
+	{
+		dest[i] = src[i];
+		++i;
+	}
+	if (i < dstsize)
+		dest[i] = '\0';
+	while (src[i])
+		++i;
+	return (i);
 }

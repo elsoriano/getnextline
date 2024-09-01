@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 18:39:43 by rhernand          #+#    #+#             */
-/*   Updated: 2024/06/24 14:42:20 by rhernand         ###   ########.fr       */
+/*   Created: 2024/09/01 12:47:39 by rhernand          #+#    #+#             */
+/*   Updated: 2024/09/01 15:54:52 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,106 +16,94 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-char	*ft_free(char *buff)
+char	*ft_update_stack(char *stack)
 {
-	free(buff);
-	buff = NULL;
-	return (NULL);
-}
-
-char *ft_str_update(char *str)
-{
-	char	*updstr;
-	size_t	offset;
+	char	*new_stack;
+	char	*aux;
 	size_t	i;
-	
+
 	i = 0;
-	if (!str)
-		return (ft_free(str));
-	offset = ft_strchr(str, '\n');
-	if (str[offset] == '\n')
-		offset++;
-	// printf("str = %s\n", str);
-	// printf("offset %li\n", offset);
-	if (!offset)
-		return (str);
-	updstr = malloc((ft_strlen(str) - offset) * sizeof(char) + 1);
-	if (!updstr)
-		ft_free(str);
-	while (str[offset + i])
+	new_stack = ft_strchr(stack, '\n');
+	if (!new_stack)
+		return (free(stack), stack = NULL, NULL);
+	new_stack++;
+	aux = malloc((ft_strlen(new_stack) + 1) * sizeof(char));
+	if (!aux)
+		return (free(stack), stack = NULL, NULL);
+	while (new_stack[i])
 	{
-		updstr[i] = str[offset + i];
+		aux[i] = new_stack[i];
 		i++;
 	}
-	updstr[i] = '\0';
-	free(str);
-	// printf("updated str = %s\n", updstr);
-	return (updstr);
+	aux[i] = '\0';
+	free(stack);
+	return (aux);
 }
 
-char	*ft_line_build(char *str)
+char	*ft_create_line(char *stack)
 {
-	size_t	len;
+	size_t	pos;
 	char	*line;
 
-	len = ft_strchr(str, '\n');
-	if (str[len] == '\n')
-		len ++;
-	// printf("len = %li\n", len);
-	if (len == 0)
-		len = ft_strlen(str);
-	line = malloc(len * sizeof(char) + 1);
+	pos = 0;
+	while (stack[pos] && stack[pos] != '\n')
+		pos++;
+	if (stack[pos] == '\n')
+		pos++;
+	line = malloc((pos + 1) * sizeof (char));
 	if (!line)
 		return (NULL);
-	if (!ft_strlcpy(line, str, len))
-		return (ft_free(line));
-	line[len] = '\0';
+	pos = 0;
+	while (stack[pos] && stack[pos] != '\n')
+	{
+		line[pos] = stack[pos];
+		pos++;
+	}
+	if (line[pos] == '\n')
+		line[pos++] = '\n';
+	line[pos] = '\0';
 	return (line);
 }
 
-char	*ft_read_fd(int fd)
+char	*ft_join(char *str1, char *str2)
 {
-	int			bytes_read;
-	char		buff[BUFFER_SIZE + 1];
-	static char	*str = NULL;
-	char		*line;
+	char	*aux;
 
-	bytes_read = 1;
-	while (!ft_strchr(str, '\n') && bytes_read != 0)
-	{
-		// printf("find break = %li\n", ft_strchr(buff, '\n'));
-		// printf("bytes read = %i\n", bytes_read);
-		bytes_read = read(fd, buff, BUFFER_SIZE);
-		// printf("buff = %s\n", buff);
-		if (bytes_read < 0)
-			return (ft_free(str));
-		buff[bytes_read] = '\0';
-		str = ft_strjoin(str, buff);
-		// printf("str after join = %s\n", str);
-		if (!str)
-			return (ft_free(str));
-	}
-	// printf("str after all iterations = %s\n", str);
-	line = ft_line_build(str);
-	// printf("line = %s\n", line);
-	str = ft_str_update(str);
-	// printf("str after update = %s\n", str);
-	return (line);
+	if (!str1)
+		aux = ft_calloc(1, 1);
+	if (!str1)
+		return (NULL);
+	aux = ft_strjoin(str1, str2);
+	free(str1);
+	return (aux);
 }
 
 char	*get_next_line(int fd)
 {
-	char	*buff;
+	static char	*stack = NULL;
+	char		*line;
+	char		tmp[BUFFER_SIZE + 1];
+	int			read_bytes;
 
 	if (fd <= 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buff = ft_read_fd(fd);
-	if (!buff)
-		return (ft_free(buff));
-	return (buff);
+	read_bytes = 1;
+	while (read_bytes > 0 && !(ft_strchr(tmp, '\n')))
+	{
+		read_bytes = read(fd, tmp, BUFFER_SIZE);
+		if (read_bytes == -1)
+			return (free(stack), stack = NULL, NULL);
+		tmp[read_bytes] = '\0';
+		stack = ft_join(stack, tmp);
+		if (!stack)
+			return (NULL);
+	}
+	line = ft_create_line(stack);
+	stack = ft_update_stack(stack);
+	return (line);
 }
 
-/* int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	int		fd;
 	char	*str;
@@ -137,4 +125,4 @@ char	*get_next_line(int fd)
 		free(str);
 		i++;
 	}
-} */
+}
