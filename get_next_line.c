@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 12:47:39 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/02 18:31:35 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/09/02 19:02:33 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*ft_create_line(char *stack)
 	size_t	pos;
 	char	*line;
 
+	if (!stack || !*stack)
+		return (NULL);
 	pos = 0;
 	while (stack[pos] && stack[pos] != '\n')
 		pos++;
@@ -94,7 +96,7 @@ char	*get_next_line(int fd)
 	while (read_bytes > 0 && !(ft_strchr(stack, '\n')))
 	{
 		read_bytes = read(fd, tmp, BUFFER_SIZE);
-		if (read_bytes == -1)
+		if (read_bytes < 0)
 			return (free(stack), stack = NULL, NULL);
 		tmp[read_bytes] = '\0';
 		stack = ft_join(stack, tmp);
@@ -106,26 +108,26 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int	main(int argc, char **argv)
-{
-	int		fd;
-	char	*str;
-	int		i;
+// int	main(int argc, char **argv)
+// {
+// 	int		fd;
+// 	char	*str;
+// 	int		i;
 
-	if (argc > 2)
-		return (0);
-	i = 0;
-	fd = open(argv[1], O_RDONLY);
-	printf("fd gen = %i\n", fd);
-	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
-	// fd2 = open(argv[2], O_RDONLY);
-	while (i < 20)
-	{
-		str = get_next_line(fd);
-		if (!str)
-			return (1);
-		printf("Final Result = %s\n", str);
-		free(str);
-		i++;
-	}
-}
+// 	if (argc > 2)
+// 		return (0);
+// 	i = 0;
+// 	fd = open(argv[1], O_RDONLY);
+// 	printf("fd gen = %i\n", fd);
+// 	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
+// 	// fd2 = open(argv[2], O_RDONLY);
+// 	while (i < 20)
+// 	{
+// 		str = get_next_line(fd);
+// 		if (!str)
+// 			return (1);
+// 		printf("Final Result = %s\n", str);
+// 		free(str);
+// 		i++;
+// 	}
+// }
