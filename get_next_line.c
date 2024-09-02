@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 12:47:39 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/01 15:54:52 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/09/02 14:45:34 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ char	*ft_join(char *str1, char *str2)
 	char	*aux;
 
 	if (!str1)
-		aux = ft_calloc(1, 1);
+	{
+		str1 = malloc(1);
+		str1[0] = '\0';
+	}
 	if (!str1)
 		return (NULL);
 	aux = ft_strjoin(str1, str2);
