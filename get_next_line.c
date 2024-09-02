@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 12:47:39 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/02 19:02:33 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/09/02 19:55:13 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*get_next_line(int fd)
 	char		tmp[BUFFER_SIZE + 1];
 	int			read_bytes;
 
-	if (fd <= 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	read_bytes = 1;
 	while (read_bytes > 0 && !(ft_strchr(stack, '\n')))
