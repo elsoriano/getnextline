@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 12:47:39 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/02 14:45:34 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:31:35 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_create_line(char *stack)
 		line[pos] = stack[pos];
 		pos++;
 	}
-	if (line[pos] == '\n')
+	if (stack[pos] == '\n')
 		line[pos++] = '\n';
 	line[pos] = '\0';
 	return (line);
@@ -91,7 +91,7 @@ char	*get_next_line(int fd)
 	if (fd <= 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	read_bytes = 1;
-	while (read_bytes > 0 && !(ft_strchr(tmp, '\n')))
+	while (read_bytes > 0 && !(ft_strchr(stack, '\n')))
 	{
 		read_bytes = read(fd, tmp, BUFFER_SIZE);
 		if (read_bytes == -1)
@@ -106,12 +106,12 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int		fd;
 	char	*str;
 	int		i;
-	
+
 	if (argc > 2)
 		return (0);
 	i = 0;
