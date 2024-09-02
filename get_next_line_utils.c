@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 14:20:21 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/02 18:34:13 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:34:23 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,4 @@ size_t	ft_strlen(const char *s)
 		j++;
 	}
 	return (j);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*buff;
-
-	buff = malloc(count * size);
-	if (buff == NULL)
-		return (NULL);
-	ft_bzero(buff, count * size);
-	return (buff);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		*((char *)(s + i)) = '\0';
-		i ++;
-	}
 }
