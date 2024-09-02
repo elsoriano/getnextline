@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 12:47:39 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/02 19:55:13 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:18:55 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,25 +87,26 @@ char	*get_next_line(int fd)
 {
 	static char	*stack = NULL;
 	char		*line;
-	char		tmp[BUFFER_SIZE + 1];
+	char		*tmp;
 	int			read_bytes;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	read_bytes = 1;
+	tmp = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	while (read_bytes > 0 && !(ft_strchr(stack, '\n')))
 	{
 		read_bytes = read(fd, tmp, BUFFER_SIZE);
 		if (read_bytes < 0)
-			return (free(stack), stack = NULL, NULL);
+			return (free(stack), stack = NULL, free(tmp), NULL);
 		tmp[read_bytes] = '\0';
 		stack = ft_join(stack, tmp);
 		if (!stack)
-			return (NULL);
+			return (free(tmp), NULL);
 	}
 	line = ft_create_line(stack);
 	stack = ft_update_stack(stack);
-	return (line);
+	return (free(tmp), line);
 }
 
 // int	main(int argc, char **argv)
