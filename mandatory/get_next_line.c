@@ -6,7 +6,7 @@
 /*   By: rhernand <rhernand@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 12:47:39 by rhernand          #+#    #+#             */
-/*   Updated: 2024/09/06 12:38:14 by rhernand         ###   ########.fr       */
+/*   Updated: 2024/10/19 11:37:16 by rhernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,26 +126,26 @@ char	*get_next_line(int fd)
 	return (free(tmp), line);
 }
 
-// int	main(int argc, char **argv)
-// {
-// 	int		fd;
-// 	char	*str;
-// 	int		i;
+int	main(int argc, char **argv)
+{
+	int		fd;
+	char	*str;
+	int		i;
 
-// 	if (argc > 2)
-// 		return (0);
-// 	i = 0;
-// 	fd = open(argv[1], O_RDONLY);
-// 	printf("fd gen = %i\n", fd);
-// 	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
-// 	// fd2 = open(argv[2], O_RDONLY);
-// 	while (i < 20)
-// 	{
-// 		str = get_next_line(fd);
-// 		if (!str)
-// 			return (1);
-// 		printf("Final Result = %s\n", str);
-// 		free(str);
-// 		i++;
-// 	}
-// }
+	if (argc > 2)
+		return (0);
+	i = 0;
+	fd = open(argv[1], O_RDONLY);
+	printf("fd gen = %i\n", fd);
+	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
+	// fd2 = open(argv[2], O_RDONLY);
+	while (i < 20)
+	{
+		str = get_next_line(fd);
+		if (!str)
+			return (1);
+		printf("Final Result = %s\n", str);
+		free(str);
+		i++;
+	}
+}
